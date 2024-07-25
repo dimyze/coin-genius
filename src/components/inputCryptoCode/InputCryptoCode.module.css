@@ -1,0 +1,13 @@
+.input {
+  margin-top: 1rem;
+  padding: 24px;
+  border: none;
+  width: 70vw;
+  font-size: 0.875rem;
+  border-radius: 0.75rem;
+  font-family: inherit;
+  font-weight: 600;
+  outline: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
