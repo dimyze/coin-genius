@@ -30,11 +30,36 @@ function Main({ wrapperPrimaryRef }: MainProps) {
   const priceModalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // FUNCTION TO UPDDATE PINNED PRICES
+    const updatePinnedPrices = async (
+      pinnedCryptoList: CryptoItemWithPrice[]
+    ) => {
+      const result: Promise<CryptoItemWithPrice>[] = [...pinnedCryptoList].map(
+        async (item: CryptoItemWithPrice, index: number) => {
+          const response: any = await axios.get(
+            `${import.meta.env.VITE_API_CRYPTO_PRICE}${item.id}-usd/spot`
+          );
+          return {
+            ...pinnedCryptoList[index],
+            price: response.data.data.amount,
+          };
+        }
+      );
+      return await Promise.all(result);
+    };
+
     // CHECK IF THERE ARE PINNED CRYPTOCURRENCIES IN LOCALSTORAGE
     const retrievedPinnedCryptoList: string | null =
       window.localStorage.getItem("cryptoListPinned");
     if (retrievedPinnedCryptoList !== null) {
-      setCryptoListPinned(JSON.parse(retrievedPinnedCryptoList));
+      const parsedCryptoList: CryptoItemWithPrice[] = JSON.parse(
+        retrievedPinnedCryptoList
+      );
+      updatePinnedPrices(parsedCryptoList).then(
+        (result: CryptoItemWithPrice[]) => {
+          setCryptoListPinned(result);
+        }
+      );
     }
     // API CALL TO FETCH ALL THE AVAILABLE CRYPTOCURRENCIES (NAMES AND CODES)
     axios
