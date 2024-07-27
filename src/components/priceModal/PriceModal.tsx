@@ -1,12 +1,12 @@
 import styles from "./PriceModal.module.css";
 import { PriceModalProps } from "../../data/interfaces";
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
 
 function PriceModal({ cryptoItem, setCryptoItemWithPrice }: PriceModalProps) {
   // EVENT HANDLERS
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setCryptoItemWithPrice(null);
-  };
+  }, []);
 
   // REFS
   const modalRef = useRef<HTMLDivElement>(null);
