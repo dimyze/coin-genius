@@ -13,6 +13,7 @@ import { useState, useRef, useEffect } from "react";
 import InputCryptoCode from "../inputCryptoCode/InputCryptoCode";
 import CryptoPinnedCard from "../cryptoPinnedCard/CryptoPinnedCard";
 import CryptoSuggestCard from "../cryptoSuggestCard/CryptoSuggestCard";
+import { fetchCCryptoItems } from "../../utils/apiCalls";
 
 function Main({ wrapperPrimaryRef }: MainProps) {
   // STATES
@@ -62,22 +63,23 @@ function Main({ wrapperPrimaryRef }: MainProps) {
       );
     }
     // API CALL TO FETCH ALL THE AVAILABLE CRYPTOCURRENCIES (NAMES AND CODES)
-    axios
-      .get(import.meta.env.VITE_API_CRYPTO_LIST)
-      .then((fetchedCryptoList) => {
-        const initialCryptoList: CryptoItem[] = fetchedCryptoList.data.map(
-          (item: any, index: number) => ({
-            id: item.id,
-            name: item.name,
-            index: index,
-          })
-        );
-        setCryptoList(initialCryptoList);
-        setCryptoListToSuggest([...initialCryptoList]);
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
+    // axios
+    //   .get(import.meta.env.VITE_API_CRYPTO_LIST)
+    //   .then((fetchedCryptoList) => {
+    //     const initialCryptoList: CryptoItem[] = fetchedCryptoList.data.map(
+    //       (item: any, index: number) => ({
+    //         id: item.id,
+    //         name: item.name,
+    //         index: index,
+    //       })
+    //     );
+    //     setCryptoList(initialCryptoList);
+    //     setCryptoListToSuggest([...initialCryptoList]);
+    //   })
+    //   .catch((error: any) => {
+    //     console.error("Error in fetching crypto items", error);
+    //   });
+    fetchCCryptoItems(setCryptoList, setCryptoListToSuggest);
   }, []);
 
   useEffect(() => {

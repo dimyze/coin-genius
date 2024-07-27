@@ -7,7 +7,7 @@ import {
   CryptoItemWithPrice,
 } from "../../data/interfaces";
 import PriceModal from "../priceModal/PriceModal";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 function CryptoSuggestCard({
@@ -37,7 +37,7 @@ function CryptoSuggestCard({
   }, [cryptoItemWithPrice]);
 
   // EVENT HANDLERS
-  const handleAddToPinned = async () => {
+  const handleAddToPinned = useCallback(async () => {
     const newCryptoListToSuggest = cryptoListToSuggest.filter(
       (oldCryptoItem: CryptoItem) => oldCryptoItem.id !== cryptoItem.id
     );
@@ -55,22 +55,22 @@ function CryptoSuggestCard({
       "cryptoListPinned",
       JSON.stringify(newCryptoListPinned)
     );
-  };
+  }, [cryptoListToSuggest, cryptoListPinned]);
 
-  const handleViewPrice = () => {
+  const handleViewPrice = useCallback(() => {
     wrapperPrimaryRef.current?.classList.add("blur");
     axios
       .get(`${import.meta.env.VITE_API_CRYPTO_PRICE}${cryptoItem.id}-usd/spot`)
-      .then((response) => {
+      .then((response: any) => {
         setCryptoItemWithPrice({
           ...cryptoItem,
           price: response.data.data.amount,
         });
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((error: any) => {
+        console.error(`Error in fetching price of ${cryptoItem.id}`, error);
       });
-  };
+  }, []);
 
   return (
     <div key={cryptoItem.id} className={styles.wrapper}>
