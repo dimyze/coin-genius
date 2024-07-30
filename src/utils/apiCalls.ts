@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { CryptoItem } from "../data/interfaces";
 
-export const fetchCCryptoItems = (
+export const fetchCryptoItems = (
   setCryptoList: React.Dispatch<React.SetStateAction<CryptoItem[]>>,
   setCryptoListToSuggest: React.Dispatch<React.SetStateAction<CryptoItem[]>>
 ) => {
