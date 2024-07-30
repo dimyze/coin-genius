@@ -13,7 +13,7 @@ import { useState, useRef, useEffect } from "react";
 import InputCryptoCode from "../inputCryptoCode/InputCryptoCode";
 import CryptoPinnedCard from "../cryptoPinnedCard/CryptoPinnedCard";
 import CryptoSuggestCard from "../cryptoSuggestCard/CryptoSuggestCard";
-import { fetchCCryptoItems } from "../../utils/apiCalls";
+import { fetchCryptoItems } from "../../utils/apiCalls";
 
 function Main({ wrapperPrimaryRef }: MainProps) {
   // STATES
@@ -63,7 +63,7 @@ function Main({ wrapperPrimaryRef }: MainProps) {
       );
     }
     // API CALL TO FETCH ALL THE AVAILABLE CRYPTOCURRENCIES (NAMES AND CODES)
-    fetchCCryptoItems(setCryptoList, setCryptoListToSuggest);
+    fetchCryptoItems(setCryptoList, setCryptoListToSuggest);
   }, []);
 
   useEffect(() => {
